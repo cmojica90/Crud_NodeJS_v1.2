@@ -14,6 +14,16 @@ router.get('/', (req, res)=>{
        }
    });
 })
+router.get('/data', (req, res) => {
+     con.query('select * from users', (error, results) => {
+          if (error) {
+               throw (error);
+          } else {
+               data = JSON.stringify(results);
+               res.send(data);//enviamos data a la url
+          }
+     });
+})
 //ruta para crear un usuario
 router.get('/create', (req, res) => {
      res.render('create');
@@ -42,7 +52,7 @@ router.get('/edit/:id', (req, res) => {
      })
 })
 const crud = require('./controllers/crud'); // Con esto mandamos a llamar al metodo save
-const { append } = require("express/lib/response");
+const { append, json } = require("express/lib/response");
 router.post('/save', crud.save);
 router.post('/update', crud.update);
 module.exports = router;
